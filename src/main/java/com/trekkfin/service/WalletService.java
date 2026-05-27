@@ -44,13 +44,13 @@ public class WalletService {
         }
 
         // Find accounts by contact number
-        Account fromAccount = accountRepository.findByPhone(fromContact)
+        Account fromAccount = accountRepository.findByPhoneWithLock(fromContact)
                 .orElse(null);
         if (fromAccount == null) {
             return new TransferResponse(TransactionStatus.FAILED, "From account not found");
         }
 
-        Account toAccount = accountRepository.findByPhone(toContact)
+        Account toAccount = accountRepository.findByPhoneWithLock(toContact)
                 .orElse(null);
         if (toAccount == null) {
             return new TransferResponse(TransactionStatus.FAILED, "To account not found");
@@ -81,7 +81,3 @@ public class WalletService {
         return new TransferResponse(TransactionStatus.SUCCESS, "Transfer completed successfully");
     }
 }
-
-
-
-
